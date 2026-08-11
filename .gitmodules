@@ -1,0 +1,6 @@
+[submodule "libs/cpp-httplib"]
+	path = libs/cpp-httplib
+	url = https://github.com/yhirose/cpp-httplib.git
+[submodule "libs/SQLiteCpp"]
+	path = libs/SQLiteCpp
+	url = https://github.com/SRombauts/SQLiteCpp.git
