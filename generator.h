@@ -50,7 +50,7 @@ namespace ks
         {
             std::string id = GenerateId(url);
 
-            while (urls.Get(id))
+            while (urls.FindValueByKey(id))
             {
                 id = GenerateId(url);
             }

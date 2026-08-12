@@ -29,7 +29,7 @@ namespace ks
             db.exec(R"(
                 CREATE TABLE IF NOT EXISTS data (
                     key   TEXT PRIMARY KEY,
-                    value TEXT NOT NULL
+                    value TEXT NOT NULL UNIQUE
                 )
             )");
         }
@@ -47,7 +47,15 @@ namespace ks
             query.exec();
         }
 
-        std::optional<std::string> Get(const std::string &key) const
+        void Remove(const std::string &key)
+        {
+            SQLite::Statement query(db, "DELETE FROM data WHERE key = ?");
+
+            query.bind(1, key);
+            query.exec();
+        }
+
+        std::optional<std::string> FindValueByKey(const std::string &key) const
         {
             SQLite::Statement query(db, "SELECT value FROM data WHERE key = ?");
 
@@ -59,12 +67,16 @@ namespace ks
             return query.getColumn(0).getString();
         }
 
-        void Remove(const std::string &key)
+        std::optional<std::string> FindKeyByValue(const std::string &value) const
         {
-            SQLite::Statement query(db, "DELETE FROM data WHERE key = ?");
+            SQLite::Statement query(db, "SELECT key FROM data WHERE value = ?");
 
-            query.bind(1, key);
-            query.exec();
+            query.bind(1, value);
+
+            if (!query.executeStep())
+                return std::nullopt;
+
+            return query.getColumn(0).getString();
         }
     };
 } // namespace ks

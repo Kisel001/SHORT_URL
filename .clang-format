@@ -11,3 +11,6 @@ ColumnLimit: 120
 NamespaceIndentation: All
 AccessModifierOffset: -4
 AllowShortFunctionsOnASingleLine: None
+AlignAfterOpenBracket: BlockIndent
+BinPackArguments: false	
+BreakBeforeCloseBracketFunction: true

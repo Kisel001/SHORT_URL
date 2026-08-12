@@ -15,8 +15,7 @@
 #include "generator.h"
 
 #include <optional>
-#include <unordered_map>
-#include <utility>
+#include <string>
 
 namespace ks
 {
@@ -34,6 +33,11 @@ namespace ks
 
         std::string Add(const std::string &url)
         {
+            std::optional<std::string> old_id = storage.FindKeyByValue(url);
+
+            if (old_id)
+                return *old_id;
+
             std::string id = generator.GenerateIdFiltred(url, storage);
             storage.Set(id, url);
             return id;
@@ -41,7 +45,7 @@ namespace ks
 
         std::optional<std::string> Get(const std::string &id)
         {
-            return storage.Get(id);
+            return storage.FindValueByKey(id);
         }
     };
 } // namespace ks
